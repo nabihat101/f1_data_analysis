@@ -48,7 +48,10 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
 
         rows.append(row)
 
+# cleaning data
 df = pd.DataFrame(rows)
+
+df = df.dropna()
 
 df = pd.get_dummies(df, columns=['driver', 'team'])
 
@@ -59,11 +62,14 @@ x = df.drop("finish_pos", axis=1)
 y = df["finish_pos"]
 
 # split the train and test based on years
-X_train = x[df["year"] <= 2023]
-X_test = x[df["year"] > 2023]
+train_df = df[df["year"] <= 2023]
+test_df = df[df["year"] > 2023]
 
-y_train = y[df["year"] <= 2023]
-y_test = y[df["year"] > 2023]
+X_train = train_df.drop(["finish_pos"], axis=1)
+y_train = train_df["finish_pos"]
+
+X_test = test_df.drop(["finish_pos"], axis=1)
+y_test = test_df["finish_pos"]
 
 # using this model so that it learns and improves score
 clf = GradientBoostingRegressor(n_estimators=300, learning_rate=0.05, max_depth=3, random_state=42)
