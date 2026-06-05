@@ -2,14 +2,28 @@
 
 import fastf1
 import pandas as pd
-import numpy as np
 import os
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error
 
 os.makedirs("f1_cache", exist_ok=True)
 fastf1.Cache.enable_cache("f1_cache")
+
+
+def get_pace(session, driver):
+    """
+    Returns race pace of the driver in the session by computing median lap time in session
+    """
+
+    laps = session.laps.pick_driver(driver)
+
+    # picking only quick laps to avoid the outlaps
+    laps = laps.pick_quicklaps()
+
+    if laps.empty():
+        return np.nan
+
+    return laps['LapTime'].dt.total_seconds().median()
 
 rows = []
 
@@ -40,11 +54,15 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
         r_driver = race_results.loc[driver]
         q_driver = quali_results.loc[driver]
 
+        fp1_pace = get_pace(fp1, driver)
+        fp2_pace = get_pace(fp2, driver)
+
         # create a row for our new table
         row = {
             "year": year,
             "driver": driver,
-
+            "fp1_pace": fp1_pace,
+            "fp2_pace": fp2_pace,
             "quali_pos": q_driver['Position'],
             "grid_pos": r_driver['GridPosition'],
             "team": r_driver['TeamName'],
@@ -84,7 +102,5 @@ clf.fit(X_train, y_train)
 pred = clf.predict(X_test)
 
 print("MAE:", mean_absolute_error(y_test, pred))
-
-
 
 
