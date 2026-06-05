@@ -11,6 +11,21 @@ from sklearn.metrics import mean_absolute_error
 os.makedirs("f1_cache", exist_ok=True)
 fastf1.Cache.enable_cache("f1_cache")
 
+def get_driver_points(year, race_round, driver):
+    """
+    Calculates the driver's points up until this GP
+    """
+
+    total = 0
+    for r in range(1, race_round):
+        session = fastf1.get_session(year, r, 'R')
+        session.load()
+        results = race.results
+        row = results[results["Abbreviation"] == driver]
+        points = row["Points"].iloc[0]
+        total += points
+
+
 
 def get_pace(session, driver):
     """
@@ -46,6 +61,7 @@ def get_driver_features(fp1, fp2, quali, race, driver, weather, year):
 
     fp1_pace = get_pace(fp1, driver)
     fp2_pace = get_pace(fp2, driver)
+    fp3_pace = get_pace(fp3, driver)
 
     # return the data
     return {
@@ -54,10 +70,17 @@ def get_driver_features(fp1, fp2, quali, race, driver, weather, year):
 
         "fp1_pace": fp1_pace,
         "fp2_pace": fp2_pace,
-        "pace_dif": fp1_pace - fp2_pace if pd.notnull(fp1_pace) and pd.notnull(fp2_pace) else np.nan,
+        "fp3_pace": fp3_pace,
+        "pace_dif_1": fp1_pace - fp2_pace if pd.notnull(fp1_pace) and pd.notnull(fp2_pace) else np.nan,
+        "pace_dif_2": fp2_pace - fp3_pace if pd.notnull(fp2_pace) and pd.notnull(fp3_pace) else np.nan,
 
         "quali_pos": q_driver['Position'],
         "grid_pos": r_driver['GridPosition'],
+
+        "driver_points": driver_points,
+        "constructor_points": constructor_points,
+
+        "previous_finish_avg": avg_finish_last5,
 
         "team": r_driver['TeamName'],
 
@@ -74,6 +97,7 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
     quali = fastf1.get_session(year, 'Monaco', 'Q')
     fp1 = fastf1.get_session(year, 'Monaco', 'FP1')
     fp2 = fastf1.get_session(year, 'Monaco', 'FP2')
+    fp3 = fastf1.get_session(year, 'Monaco', 'FP3')
 
     fp1.load()
     fp2.load()

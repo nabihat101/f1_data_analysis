@@ -38,6 +38,7 @@ def get_driver_features(fp1, fp2, driver, weather, year):
 
     return {
         "year": year,
+        "driver": driver
 
         "fp1_pace": fp1_pace,
         "fp2_pace": fp2_pace,
@@ -92,4 +93,4 @@ live_df["win_score"] = 1 / (live_df["predicted_finish"] + 1e-6)
 
 print("\n🏁 LIVE MONACO PREDICTION 🏁\n")
 
-print(live_df[["predicted_finish", "win_score"]].head(10))
+print(live_df[["driver", "predicted_finish", "win_score"]].head(10))
