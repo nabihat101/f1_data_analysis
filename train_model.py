@@ -24,6 +24,21 @@ def get_driver_points(year, race_round, driver):
         row = results[results["Abbreviation"] == driver]
         points = row["Points"].iloc[0]
         total += points
+    return total
+
+def get_constructor_points(year, race_round, team):
+    """
+    calculates team points up until this GP
+    """
+
+    total = 0
+    for r in range(1, race_round):
+        session = fastf1.get_session(year, r, 'R')
+        session.load()
+        results = race.results
+        team_rows = results[results["TeamName"] == team]
+        total += team_rows["Points"].sum()
+    return total
 
 
 
