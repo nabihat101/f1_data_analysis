@@ -20,7 +20,7 @@ def get_pace(session, driver):
     # picking only quick laps to avoid the outlaps
     laps = laps.pick_quicklaps()
 
-    if laps.empty():
+    if laps.empty:
         return np.nan
 
     return laps['LapTime'].dt.total_seconds().median()
@@ -39,6 +39,7 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
     fp2.load()
     race.load()
     quali.load()
+    weather = race.weather_data
 
     # instead of having indices of (0, 1, ...), set the indices to be driver names
     race_results = race.results.set_index('Abbreviation')
@@ -63,9 +64,13 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
             "driver": driver,
             "fp1_pace": fp1_pace,
             "fp2_pace": fp2_pace,
+            "pace_dif": fp1_pace - fp2_pace if pd.notnull(fp1_pace) and pd.notnull(fp2_pace) else np.nan,
             "quali_pos": q_driver['Position'],
             "grid_pos": r_driver['GridPosition'],
             "team": r_driver['TeamName'],
+            "air_temp": weather["AirTemp"].mean(),
+            "track_temp": weather["TrackTemp"].mean(),
+            "rainfall": weather["Rainfall"].max(),
             "finish_pos": r_driver['Position']
         }
 
