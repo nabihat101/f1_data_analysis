@@ -1,6 +1,7 @@
 # importing libraries
 
 import fastf1
+import joblib
 import pandas as pd
 import os
 import numpy as np
@@ -112,6 +113,7 @@ clf = GradientBoostingRegressor(n_estimators=300, learning_rate=0.05, max_depth=
 
 # fitting the model
 clf.fit(X_train, y_train)
+joblib.dump(clf, "f1_model.pkl")
 pred = clf.predict(X_test)
 
 print("MAE:", mean_absolute_error(y_test, pred))
