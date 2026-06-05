@@ -18,6 +18,11 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
     # get the sessions and load them for each year
     race = fastf1.get_session(year, 'Monaco', 'R')
     quali = fastf1.get_session(year, 'Monaco', 'Q')
+    fp1 = fastf1.get_session(year, 'Monaco', 'FP1')
+    fp2 = fastf1.get_session(year, 'Monaco', 'FP2')
+
+    fp1.load()
+    fp2.load()
     race.load()
     quali.load()
 
