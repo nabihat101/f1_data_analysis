@@ -78,6 +78,9 @@ def get_driver_features(fp1, fp2, quali, race, driver, weather, year):
     fp2_pace = get_pace(fp2, driver)
     fp3_pace = get_pace(fp3, driver)
 
+    driver_points = get_driver_points(2026, 'Monaco', driver)
+    constructor_points = get_constructor_points(2026, 'Monaco', driver)
+
     # return the data
     return {
         "year": year,
@@ -94,8 +97,6 @@ def get_driver_features(fp1, fp2, quali, race, driver, weather, year):
 
         "driver_points": driver_points,
         "constructor_points": constructor_points,
-
-        "previous_finish_avg": avg_finish_last5,
 
         "team": r_driver['TeamName'],
 
