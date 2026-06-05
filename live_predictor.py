@@ -17,14 +17,17 @@ def get_pace(session, driver):
     return laps["LapTime"].dt.total_seconds().median()
 
 
-def get_driver_features(fp1, fp2, quali, driver, weather, year):
+def get_driver_features(fp1, fp2, driver, weather, year):
 
-    quali_results = quali.results.set_index("Abbreviation")
+    #quali_results = quali.results.set_index("Abbreviation")
 
-    if driver not in quali_results.index:
-        return None
+    #if driver not in quali_results.index:
+    #    return None
 
-    q = quali_results.loc[driver]
+    #q = quali_results.loc[driver]
+
+    fp1_results = fp1.results.set_index("Abbreviation")
+    FP1 = fp1_results.loc[driver]
 
     fp1_pace = get_pace(fp1, driver)
     fp2_pace = get_pace(fp2, driver)
@@ -40,8 +43,8 @@ def get_driver_features(fp1, fp2, quali, driver, weather, year):
         "fp2_pace": fp2_pace,
         "pace_dif": fp1_pace - fp2_pace if pd.notnull(fp1_pace) and pd.notnull(fp2_pace) else 0,
 
-        "quali_pos": q["Position"],
-        "team": q["TeamName"],
+        #"quali_pos": q["Position"],
+        "team": FP1["TeamName"],
 
         "air_temp": air,
         "track_temp": track,
@@ -53,20 +56,20 @@ TRACK = "Monaco"
 
 fp1 = fastf1.get_session(YEAR, TRACK, "FP1")
 fp2 = fastf1.get_session(YEAR, TRACK, "FP2")
-quali = fastf1.get_session(YEAR, TRACK, "Q")
+#quali = fastf1.get_session(YEAR, TRACK, "Q")
 
 fp1.load(weather=True)
 fp2.load(weather=True)
-quali.load(weather=True)
+#quali.load(weather=True)
 
-weather = quali.weather_data
+weather = fp1.weather_data
 
 drivers = fp1.results["Abbreviation"].unique()
 
 rows = []
 
 for d in drivers:
-    feats = get_driver_features(fp1, fp2, quali, d, weather, YEAR)
+    feats = get_driver_features(fp1, fp2, d, weather, YEAR)
     if feats:
         rows.append(feats)
 
