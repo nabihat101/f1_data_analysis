@@ -36,7 +36,8 @@ driver_points = {
         "ALO": 0,
         "STR": 0,
         "BOT": 0,
-        "PER": 0
+        "PER": 0,
+        "HUL": 0
     }
 
 

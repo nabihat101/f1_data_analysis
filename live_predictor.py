@@ -31,11 +31,15 @@ for d in fp1.results["Abbreviation"]:
 
 live_df = pd.DataFrame(rows)
 
+drivers = live_df["driver"]
+
 live_df = pd.get_dummies(live_df, columns=["team"])
 
 live_df = live_df.reindex(columns=model.feature_names_in_, fill_value=0)
 
 pred = model.predict(live_df)
+
+live_df["driver"] = drivers
 
 live_df["score"] = pred
 
