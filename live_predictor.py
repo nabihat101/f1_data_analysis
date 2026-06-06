@@ -30,10 +30,11 @@ for d in fp1.results["Abbreviation"]:
     rows.append(feats)
 
 live_df = pd.DataFrame(rows)
+live_df = live_df.fillna(0)
 
 drivers = live_df["driver"]
 
-live_df = pd.get_dummies(live_df, columns=["team"])
+live_df = pd.get_dummies(live_df, columns=["driver", "team"])
 
 live_df = live_df.reindex(columns=model.feature_names_in_, fill_value=0)
 
