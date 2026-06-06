@@ -6,10 +6,10 @@ This project builds a full machine learning pipeline for Formula 1 race predicti
 
 - Data collection using the FastF1 API
 - Feature engineering from:
-- - FP1 / FP2 / FP3 practice sessions
-- - Qualifying results
-- - Race results (training labels)
-- - Weather conditions
+  - FP1 / FP2 / FP3 practice sessions
+  - Qualifying results
+  - Race results (training labels)
+  - Weather conditions
 - Model training using Gradient Boosting Regression
 - Live prediction system for race weekends
 
