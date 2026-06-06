@@ -13,8 +13,24 @@ This project builds a full machine learning pipeline for Formula 1 race predicti
 - Model training using Gradient Boosting Regression
 - Live prediction system for race weekends
 
-## Data Sources 
+## How it Works
+1. Training 
+- Loads historical F1 seasons (2018–2025)
+- Extracts driver-level features per race
+- Cleans and encodes data
+- Trains Gradient Boosting model
+- Saves model using joblib
+2. Live Prediction 
+- Loads upcoming race weekend sessions
+- Extracts FP1 + FP2 + qualifying data
+- Builds features same as training
+- Predicts finishing order
+- Outputs ranked race prediction
 
 ## Python Libraries
+- numPy
+- scikit learn
+- pandas
+- fastf1 API
 
 
