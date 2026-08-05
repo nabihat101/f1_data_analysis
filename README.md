@@ -1,5 +1,4 @@
 # Travel Planner ✈️
-This project uses machine learning, python libraries, and the Fast F1 API to create accurate predictions on race outcomes for the F1 2026 season.
 
 ## Project Overview 
 Travel Planner is a full-stack web application that generates personalized travel itineraries using AI. Users enter details such as their destination, budget, trip length, and travel style, and the application creates a customized itinerary with attractions, food recommendations, estimated costs, and travel tips.
