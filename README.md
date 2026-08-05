@@ -1,36 +1,36 @@
-# F1 Data Analysis and Predictor 2026
+# Travel Planner ✈️
 This project uses machine learning, python libraries, and the Fast F1 API to create accurate predictions on race outcomes for the F1 2026 season.
 
 ## Project Overview 
-This project builds a full machine learning pipeline for Formula 1 race prediction:
+Travel Planner is a full-stack web application that generates personalized travel itineraries using AI. Users enter details such as their destination, budget, trip length, and travel style, and the application creates a customized itinerary with attractions, food recommendations, estimated costs, and travel tips.
 
-- Data collection using the FastF1 API
-- Feature engineering from:
-  - FP1 / FP2 / FP3 practice sessions
-  - Qualifying results
-  - Race results (training labels)
-  - Weather conditions
-- Model training using Gradient Boosting Regression
-- Live prediction system for race weekends
+## Features
+- Personalized AI-generated travel itineraries
+- Destination, budget, trip length, and travel style customization
+- Responsive and interactive user interface
+- Flask backend with API integration
+- Dynamic itinerary display without refreshing the page
+
+## Technologies Used
+
+### Frontend
+- HTML
+- CSS
+- JavaScript
+- 
+### Backend
+- Python
+- Flask
+- 
+### AI
+- Groq API
 
 ## How it Works
-1. Training 
-- Loads historical F1 seasons (2018–2025)
-- Extracts driver-level features per race
-- Cleans and encodes data
-- Trains Gradient Boosting model
-- Saves model using joblib
-2. Live Prediction 
-- Loads upcoming race weekend sessions
-- Extracts FP1 + FP2 + qualifying data
-- Builds features same as training
-- Predicts finishing order
-- Outputs ranked race prediction
-
-## Python Libraries
-- numPy
-- scikit learn
-- pandas
-- fastf1 API
+- User fills out the travel form.
+- JavaScript collects the form data.
+- The data is sent to the Flask backend.
+- Flask creates a prompt using the user's preferences.
+- The Groq API generates a personalized itinerary.
+- The itinerary is returned as JSON and displayed on the webpage.
 
 
