@@ -2,13 +2,14 @@ import fastf1
 import pandas as pd
 import numpy as np
 import joblib
-
 from features_utils import get_driver_features
 
-model = joblib.load("f1_model.pkl")
+user_race = input("Enter the upcoming race you want to predict: ")
 
 YEAR = 2026
-TRACK = "Monaco"
+TRACK = user_race
+
+model = joblib.load(f"{TRACK}_model.pkl")
 
 fp1 = fastf1.get_session(YEAR, TRACK, "FP1")
 

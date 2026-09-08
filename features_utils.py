@@ -1,5 +1,3 @@
-import pandas as pd
-import numpy as np
 
 def get_driver_features(fp1, fp2, weather, driver, year, quali=None, race=None, training=False):
     """
@@ -39,8 +37,6 @@ def get_driver_features(fp1, fp2, weather, driver, year, quali=None, race=None, 
 
     if training:
         race_results = race.results.set_index("Abbreviation")
-
-        row["grid_pos"] = race_results.loc[driver]["GridPosition"]
 
         row["finish_pos"] = race_results.loc[driver]["Position"]
 

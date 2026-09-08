@@ -8,13 +8,15 @@ from features_utils import get_driver_features
 
 rows = []
 
+user_track = input("Enter the track you want to train the model on: ")
+
 for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
 
     # get all the sessions
-    race = fastf1.get_session(year, "Monaco", "R")
-    quali = fastf1.get_session(year, "Monaco", "Q")
-    fp1 = fastf1.get_session(year, "Monaco", "FP1")
-    fp2 = fastf1.get_session(year, "Monaco", "FP2")
+    race = fastf1.get_session(year, user_track, "R")
+    quali = fastf1.get_session(year, user_track, "Q")
+    fp1 = fastf1.get_session(year, user_track, "FP1")
+    fp2 = fastf1.get_session(year, user_track, "FP2")
 
     # load all sessions
     fp1.load()
@@ -24,7 +26,7 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
 
     # in case weather is not loaded/race cancelled
     try:
-        weather = race.weather_data
+        weather = quali.weather_data
     except:
         weather = pd.DataFrame({
             "AirTemp": [np.nan],
@@ -36,7 +38,8 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
 
         feats = get_driver_features(fp1, fp2, weather, d, year, quali, race, training=True)
 
-        rows.append(feats)
+        if feats is not None:
+            rows.append(feats)
 
 df = pd.DataFrame(rows)
 df = df.fillna(0)
@@ -58,6 +61,6 @@ model.fit(X_train, y_train)
 
 pred = model.predict(X_test)
 
-joblib.dump(model, "f1_model.pkl")
+joblib.dump(model, f"{user_track}_model.pkl")
 
 print("MAE:", mean_absolute_error(y_test, pred))
