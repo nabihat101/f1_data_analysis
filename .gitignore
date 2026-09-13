@@ -1,0 +1,4 @@
+# FastF1 Cache
+fastf1cache/
+.fastf1/
+*.pkl
