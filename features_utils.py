@@ -17,14 +17,28 @@ def get_driver_features(
     fp2_results = fp2.results.set_index("Abbreviation")
     quali_results = quali.results.set_index("Abbreviation")
 
-    # Error handling: Make sure the driver has data from all required sessions
-    if driver not in fp1_results.index:
-        return None
-
-    if driver not in fp2_results.index:
-        return None
-
     if driver not in quali_results.index:
+        return None
+
+    # Get FP1 laps for this driver
+    fp1_laps = fp1.laps[
+        fp1.laps["Driver"] == driver
+    ]
+
+    # Get FP2 laps for this driver
+    fp2_laps = fp2.laps[
+        fp2.laps["Driver"] == driver
+    ]
+
+    # Make sure practice data exists
+    if fp1_laps.empty or fp2_laps.empty:
+        return None
+
+    # Get fastest valid lap
+    fp1_fastest = fp1_laps["LapTime"].dropna().min()
+    fp2_fastest = fp2_laps["LapTime"].dropna().min()
+
+    if fp1_fastest is None or fp2_fastest is None:
         return None
 
     driver_info = fp1_results.loc[driver]
@@ -34,8 +48,8 @@ def get_driver_features(
         "track": track,
         "driver": driver,
 
-        "fp1_pos": fp1_results.loc[driver]["Position"],
-        "fp2_pos": fp2_results.loc[driver]["Position"],
+        "fp1_pace": fp1_fastest.total_seconds(),
+        "fp2_pace": fp2_fastest.total_seconds(),
         "quali_pos": quali_results.loc[driver]["Position"],
 
         "team": driver_info["TeamName"],
