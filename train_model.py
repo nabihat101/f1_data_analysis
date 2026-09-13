@@ -36,7 +36,7 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
 
     for d in race.results["Abbreviation"]:
 
-        feats = get_driver_features(fp1, fp2, weather, d, year, quali, race, training=True)
+        feats = get_driver_features(fp1, fp2, weather, d, year, user_track, quali, race, training=True)
 
         if feats is not None:
             rows.append(feats)
