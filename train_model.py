@@ -36,6 +36,17 @@ X_test = test_df.drop("finish_pos", axis=1)
 y_test = test_df["finish_pos"]
 
 
+# Make sure all datasets have the same columns -> new drivers/old driver issues
+X_validation = X_validation.reindex(
+    columns=X_train.columns,
+    fill_value=0
+)
+
+X_test = X_test.reindex(
+    columns=X_train.columns,
+    fill_value=0
+)
+
 # Create model that will continuously improve -> using pipeline to handle missing values
 model = make_pipeline(
     SimpleImputer(strategy="median"),

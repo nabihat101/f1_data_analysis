@@ -1,24 +1,48 @@
 import fastf1
 import pandas as pd
-import numpy as np
 from features_utils import get_driver_features
 
-YEARS = [2018, 2019, 2021, 2022, 2023, 2024, 2025]
-rows = []
+YEARS = [2022, 2023, 2024, 2025]
+
+# Load existing data if it exists
+try:
+    df_existing = pd.read_csv("f1_race_data.csv")
+    rows = df_existing.to_dict("records")
+
+    print(f"Loaded {len(rows)} existing rows.")
+
+except FileNotFoundError:
+    rows = []
+    print("No existing dataset found. Starting from scratch.")
+
 
 for year in YEARS:
 
-    # get races for that year
+    print(f"\nCollecting data for {year}...")
+
     schedule = fastf1.get_event_schedule(year)
 
     for _, event in schedule.iterrows():
+
         track = event["EventName"]
 
         # Skip events that aren't actual races
         if pd.isna(event["RoundNumber"]) or event["RoundNumber"] == 0:
             continue
 
-        #handling unpredictable errors when loading sessions
+        # Check whether this race has already been collected
+        already_collected = any(
+            row["year"] == year and row["track"] == track
+            for row in rows
+        )
+
+        if already_collected:
+            print(f"  Skipping {track} - already collected")
+            continue
+
+        print(f"  Collecting {track}...")
+
+        # Load sessions
         try:
             race = fastf1.get_session(year, track, "R")
             quali = fastf1.get_session(year, track, "Q")
@@ -31,7 +55,7 @@ for year in YEARS:
             race.load(weather=True)
 
         except Exception as e:
-            print(f"Skipping {track}: {e}")
+            print(f"    Skipping {track}: {e}")
             continue
 
         # Get weather data
@@ -40,12 +64,14 @@ for year in YEARS:
 
         except Exception:
             weather = pd.DataFrame({
-                "AirTemp": [np.nan],
-                "TrackTemp": [np.nan],
+                "AirTemp": [float("nan")],
+                "TrackTemp": [float("nan")],
                 "Rainfall": [0]
             })
-        
+
         # Create one row for every driver
+        race_rows = []
+
         for driver in race.results["Abbreviation"]:
 
             feats = get_driver_features(
@@ -61,18 +87,25 @@ for year in YEARS:
             )
 
             if feats is not None:
-                rows.append(feats)
+                race_rows.append(feats)
 
-# Convert everything into a DataFrame
-df = pd.DataFrame(rows)
+        # Add this race's data to our overall dataset
+        rows.extend(race_rows)
 
-# Save the dataset
-df.to_csv("f1_race_data.csv", index=False)
+        # SAVE IMMEDIATELY after this race
+        df = pd.DataFrame(rows)
+        df.to_csv("f1_race_data.csv", index=False)
+
+        print(f"    Saved {len(race_rows)} drivers.")
+        print(f"    Total rows: {len(rows)}")
+
 
 print("\nFinished collecting data!")
+
+df = pd.DataFrame(rows)
+
 print(f"Total rows: {len(df)}")
 print(f"Total columns: {len(df.columns)}")
 
-# Print the column names/data for reference
 print("\nColumns:")
 print(df.columns.tolist())
