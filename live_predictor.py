@@ -2,7 +2,7 @@ import fastf1
 import pandas as pd
 import numpy as np
 import joblib
-
+from database import get_race_data
 from features_utils import get_driver_features, get_historical_features, build_history
 
 
@@ -13,7 +13,7 @@ fastf1.Cache.enable_cache(".fastf1_cache")
 
 model = joblib.load("f1_model.pkl")
 model_features = joblib.load("model_features.pkl")
-historical_df = pd.read_csv("f1_race_data.csv")
+historical_df = get_race_data()
 
 history = build_history(historical_df)
 

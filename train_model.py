@@ -18,9 +18,9 @@ print(df.shape)
 
 
 # Chronological split
-train_df = df[df["year"] <= 2023].copy()
-validation_df = df[df["year"] == 2024].copy()
-test_df = df[df["year"] == 2025].copy()
+train_df = df[(df["year"] <= 2023) & (df["finish_pos"].notna())].copy()
+validation_df = df[(df["year"] == 2024) & (df["finish_pos"].notna())].copy()
+test_df = df[(df["year"] == 2025) & (df["finish_pos"].notna())].copy()
 
 
 # Separate features and target

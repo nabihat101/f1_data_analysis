@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f3;
+    color: #1f1f1f;
+}
+
+header {
+    padding: 50px 8%;
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+header p {
+    color: #666;
+    max-width: 600px;
+    line-height: 1.6;
+}
+
+main {
+    width: 84%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+.prediction-box {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    padding: 25px;
+}
+
+.prediction-box label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+button {
+    padding: 12px 22px;
+    border: none;
+    background: #d71920;
+    color: white;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #b9151b;
+}
+
+.results {
+    margin-top: 30px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    margin-top: 15px;
+}
+
+th, td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background: #f0f0ee;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.error {
+    color: #b00020;
+    padding: 15px 0;
+}
