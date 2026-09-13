@@ -18,6 +18,7 @@ for year in YEARS:
         if pd.isna(event["RoundNumber"]) or event["RoundNumber"] == 0:
             continue
 
+        #handling unpredictable errors when loading sessions
         try:
             race = fastf1.get_session(year, track, "R")
             quali = fastf1.get_session(year, track, "Q")
@@ -30,7 +31,7 @@ for year in YEARS:
             race.load(weather=True)
 
         except Exception as e:
-            print(f"    Skipping {track}: {e}")
+            print(f"Skipping {track}: {e}")
             continue
 
         # Get weather data
@@ -72,5 +73,6 @@ print("\nFinished collecting data!")
 print(f"Total rows: {len(df)}")
 print(f"Total columns: {len(df.columns)}")
 
+# Print the column names/data for reference
 print("\nColumns:")
 print(df.columns.tolist())
