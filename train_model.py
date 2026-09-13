@@ -44,7 +44,7 @@ for year in [2018, 2019, 2021, 2022, 2023, 2024, 2025]:
 df = pd.DataFrame(rows)
 df = df.fillna(0)
 
-df = pd.get_dummies(df, columns=["driver", "team"])
+df = pd.get_dummies(df, columns=["driver", "team", "track"])
 
 train_df = df[df["year"] <= 2023]
 test_df = df[df["year"] > 2023]
