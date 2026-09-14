@@ -48,6 +48,8 @@ FastF1 → Feature Engineering → SQLite → ML Model → FastAPI → Web Inter
 
 The model uses a chronological train/validation/test split so that future race results are not used when training on earlier races.
 
+![image of the program](path/to/image.png)
+
 ## Future Improvements
 
 * Improve model accuracy and feature engineering
