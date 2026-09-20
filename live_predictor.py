@@ -5,6 +5,7 @@ import joblib
 from database import get_race_data
 from features_utils import get_driver_features, get_historical_features, build_history
 
+# can be run in console
 
 YEAR = 2026
 TRACK = input("Enter the race you want to predict: ")

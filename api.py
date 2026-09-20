@@ -7,6 +7,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from features_utils import get_driver_features, get_historical_features, build_history
 from database import get_race_data
 
+ # to be run with uvicorn api:app --reload
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
