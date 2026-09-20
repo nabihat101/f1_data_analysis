@@ -4,12 +4,15 @@ import pandas as pd
 DB_FILE = "f1_data.db"
 
 
+# connect to the database
 def get_connection():
     return sqlite3.connect(DB_FILE)
 
 
 def get_race_data():
     connection = get_connection()
+
+    #select everything from the race_results table and turn into panadas table
     df = pd.read_sql_query("SELECT * FROM race_results", connection)
     connection.close()
     return df

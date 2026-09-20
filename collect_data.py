@@ -20,7 +20,7 @@ def create_empty_history():
         "team_track": {}
     }
 
-
+# after we've collected a race, we want to update the history with the new data so that we can use it for future races
 def update_history(history, race_rows):
     for row in race_rows:
         driver = row["driver"]
@@ -47,6 +47,7 @@ def update_history(history, race_rows):
         history["team_track"][team_track_key].append(finish)
 
 
+# we have this function to rebuild the history from the existing dataset, so we don't have to recalculate it every time we run the script bc of FastF1s limitations
 def rebuild_history(df):
     history = create_empty_history()
     collected_races = set()
@@ -83,6 +84,7 @@ def rebuild_history(df):
             for index in race_indices:
                 row = df.loc[index]
 
+                # building historical features for each driver in the race based on the history we've built so far
                 historical = get_historical_features(
                     history,
                     row["driver"],
@@ -105,7 +107,7 @@ def rebuild_history(df):
 
     return df, history, collected_races
 
-
+# finds if exisiting dataset exists, if it does, load it and rebuild history, if not, create new dataset
 if os.path.exists(OUTPUT_FILE):
     print("\nExisting dataset found.")
     df = pd.read_csv(OUTPUT_FILE)

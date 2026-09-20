@@ -126,6 +126,7 @@ def create_empty_history():
     }
 
 
+# to be called on a complete database so that we can map drivers to historical performance and teams to historical performance, as well as driver-track and team-track performance
 def build_history(df):
     history = create_empty_history()
 
@@ -160,6 +161,7 @@ def build_history(df):
 
     return history
 
+# returns the the avg of historical performance for drivers and teams at tracks
 def get_historical_features(history, driver, team, track):
     driver_history = history["driver"].get(driver, [])
     team_history = history["team"].get(team, [])
