@@ -56,3 +56,6 @@ The model uses a chronological train/validation/test split so that future race r
 * Add more race and driver statistics
 * Deploy the application
 * Add visualizations for predictions and model performance
+
+## How to Run
+''' hello ''' 
